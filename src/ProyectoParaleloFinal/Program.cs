@@ -45,6 +45,20 @@ namespace ProyectoFinalModular
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"Tiempo: {swPar.ElapsedMilliseconds} ms");
             Console.ResetColor();
+
+            // 4. REPORTES
+            AnalistaReportes.MostrarInformeEjecutivo(resPar);
+
+            // 5. MÉTRICAS FINALES
+            double speedup = (double)swSec.ElapsedMilliseconds / swPar.ElapsedMilliseconds;
+            double eficiencia = speedup / Environment.ProcessorCount;
+
+            Console.WriteLine("\n=== Metricas de rendimiento ===");
+            Console.WriteLine($"Speedup: {speedup:F2}x");
+            Console.WriteLine($"Eficiencia: {eficiencia:F2}");
+
+            Console.WriteLine("\nPresione ENTER para finalizar...");
+            Console.ReadLine();
         }
     }
 }
