@@ -5,13 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProyectoParaleloFinal.Core
+namespace ProyectoParaleloFinal
 {
     public class MotorEspeculativo
     {
-        //###############################################
         // 1. Constantes de prediccion y simulacion
-        //###############################################
+
 
         //--- Escenario Especulativo factores base para subida y bajada ---
         private const double FACTOR_ESCENARIO_SUBIDA = 1.5;
@@ -49,6 +48,50 @@ namespace ProyectoParaleloFinal.Core
             double pSubida = promedio * FACTOR_ESCENARIO_SUBIDA;
             double pBajada = promedio * FACTOR_ESCENARIO_BAJADA;
             double pEstable = promedio;
+
+            // 2. Simulacion de realidad dados cargados por categoria
+
+            // Genera una 'seed' única basada en GUID y el ID del producto
+            // Esto asegura que la simulación sea pseudo-aleatoria e independiente por producto
+
+            int seed = Guid.NewGuid().GetHashCode() + p.Id;
+            Random rnd = new Random();
+            double azar = rnd.NextDouble();
+            double demandaReal;
+
+
+            switch (p.Categoria)
+            {
+                case "Alimentos":
+                    // Sesgo 70% a la subida
+                    demandaReal = (azar < FACTOR_SESGO_FUERTE)
+                        ? promedio * FACTOR_ALIMENTO_SUBIDA
+                        : promedio * FACTOR_ALIMENTO_BAJADA;
+                    break;
+
+                case "Electrónica":
+                    // Sesgo 70% a la bajada
+                    demandaReal = (azar < FACTOR_SESGO_FUERTE)
+                        ? promedio * FACTOR_ELECTRONICA_BAJADA
+                        : promedio * FACTOR_ELECTRONICA_SUBIDA;
+                    break;
+
+                case "Limpieza":
+                    // Volátil 50/50
+                    demandaReal = (azar < PROB_VOLATIL)
+                        ? promedio * FACTOR_LIMPIEZA_ALTA
+                        : promedio * FACTOR_LIMPIEZA_BAJA;
+                    break;
+
+                default: // Caso "Hogar" y cualquier otra categoría no definida
+                    // Estable: variación entre 0.9 y 1.1
+                    demandaReal = promedio * (FACTOR_HOGAR_BASE + (azar * FACTOR_HOGAR_VARIACION));
+                    break;
+            }
+
+            
+            demandaReal = Math.Round(demandaReal, 2);
+
 
 
             // Determinar el escenario con el menor error
