@@ -92,11 +92,32 @@ namespace ProyectoParaleloFinal
             
             demandaReal = Math.Round(demandaReal, 2);
 
+            // 3. VALIDACIÓN (Comparar escenarios especulativos contra la realidad simulada)
 
+            // Calcular el Error Absoluto (distancia) de cada predicción a la demanda simulada
+            double errSub = Math.Abs(pSubida - demandaReal);
+            double errBaj = Math.Abs(pBajada - demandaReal);
+            double errEst = Math.Abs(pEstable - demandaReal);
 
             // Determinar el escenario con el menor error
             string ganador = "Estable";
 
+            if (errSub < errEst && errSub < errBaj)
+            {
+                ganador = "Subida";
+            }
+            else if (errBaj < errEst && errBaj < errSub)
+            {
+                ganador = "Bajada";
+            }
+
+            // Devolver el resultado usando el modelo de datos no modificable
+            return new ResultadoPrediccion
+            {
+                ProductoId = p.Id,
+                Categoria = p.Categoria,
+                EscenarioGanador = ganador
+            };
 
             return new ResultadoPrediccion
             {
