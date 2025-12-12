@@ -55,7 +55,7 @@ namespace ProyectoFinalModular
             // Esto asegura que la simulación sea pseudo-aleatoria e independiente por producto
 
             int seed = Guid.NewGuid().GetHashCode() + p.Id;
-            Random rnd = new Random();
+            Random rnd = new Random(seed);
             double azar = rnd.NextDouble();
             double demandaReal;
 
@@ -112,13 +112,6 @@ namespace ProyectoFinalModular
             }
 
             // Devolver el resultado usando el modelo de datos no modificable
-            return new ResultadoPrediccion
-            {
-                ProductoId = p.Id,
-                Categoria = p.Categoria,
-                EscenarioGanador = ganador
-            };
-
             return new ResultadoPrediccion
             {
                 ProductoId = p.Id,
