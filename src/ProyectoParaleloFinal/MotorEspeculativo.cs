@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProyectoParaleloFinal
+namespace ProyectoFinalModular
 {
     public class MotorEspeculativo
     {
