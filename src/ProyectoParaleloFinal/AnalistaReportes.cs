@@ -21,7 +21,31 @@ namespace ProyectoFinalModular
                 })
                 .ToList();
 
-           
+            foreach (var item in reporte)
+            {
+                string tendencia = "ESTABLE";
+                ConsoleColor color = ConsoleColor.White;
+
+                if (item.Suben > item.Estables && item.Suben > item.Bajan)
+                {
+                    tendencia = "ALTA DEMANDA (REABASTECER)";
+                    color = ConsoleColor.Red;
+                }
+                else if (item.Bajan > item.Estables && item.Bajan > item.Suben)
+                {
+                    tendencia = "BAJA DEMANDA (OFERTAR)";
+                    color = ConsoleColor.Green;
+                }
+
+                Console.Write($"[{item.Categoria.PadRight(12)}] -> Tendencia: ");
+                Console.ForegroundColor = color;
+                Console.WriteLine(tendencia);
+                Console.ResetColor();
+                Console.WriteLine($"    Detalle: {item.Suben} suben, {item.Bajan} bajan, {item.Estables} estables.");
+                Console.WriteLine("- - - - - - - - - - - - - - -");
+            }
+
+
         }
     }
 }
