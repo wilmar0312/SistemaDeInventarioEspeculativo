@@ -39,7 +39,7 @@ namespace ProyectoFinalModular
         private const double FACTOR_HOGAR_BASE = 0.9;
         private const double FACTOR_HOGAR_VARIACION = 0.2;
 
-        public static ResultadoPrediccion procesar(Producto p)
+        public static ResultadoPrediccion Procesar(Producto p)
         {
             // Calcula el promedio de ventas recientes como base de las predicciones
             double promedio = p.VentasUltimosDias.Average();
